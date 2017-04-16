@@ -40,17 +40,16 @@
          { title: 'Got to Get It"', duration: '2:54' },
          { title: 'Is Love Enough', duration: '4:33'},
          { title: '2nite (Interlude)', duration: '1:21' },
-         { title: 'How Can I Love U 2nite', duration: '4:10'}
-         { title: 'Your Love Is Incredible', duration: '4:10'}
-         { title: 'So Sexual', duration: '3:58'}
+         { title: 'How Can I Love U 2nite', duration: '4:10'},
+         { title: 'Your Love Is Incredible', duration: '4:10'},
+         { title: 'So Sexual', duration: '3:58'},
          { title: 'Thong Song', duration: '4:16'}
-
      ]
  };
  var createSongRow = function(songNumber, songName, songLength) {
      var template =
         '<tr class="album-view-song-item">'
-      + '  <td class="song-item-number">' + songNumber + '</td>'
+      + '  <td class="song-item-number" data-song-number="' + songNumber + '">' + songNumber + '</td>'
       + '  <td class="song-item-title">' + songName + '</td>'
       + '  <td class="song-item-duration">' + songLength + '</td>'
       + '</tr>'
@@ -66,32 +65,40 @@
  var albumSongList = document.getElementsByClassName('album-view-song-list')[0];
 
  var setCurrentAlbum = function(album) {
-     // #1
-
-     // #2
      albumTitle.firstChild.nodeValue = album.title;
      albumArtist.firstChild.nodeValue = album.artist;
      albumReleaseInfo.firstChild.nodeValue = album.year + ' ' + album.label;
      albumImage.setAttribute('src', album.albumArtUrl);
 
-     // #3
      albumSongList.innerHTML = '';
 
-     // #4
      for (var i = 0; i < album.songs.length; i++) {
          albumSongList.innerHTML += createSongRow(i + 1, album.songs[i].title, album.songs[i].duration);
      }
  };
+ var songListContainer = document.getElementsByClassName('album-view-song-list')[0];
+ var songRows = document.getElementsByClassName('album-view-song-item');
+
+ var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
 
  window.onload = function() {
      setCurrentAlbum(albumPicasso);
+
+     songListContainer.addEventListener('mouseover', function(event) {
+       if (event.target.parentElement.className === 'album-view-song-item') {
+         event.target.parentElement.querySelector('.song-item-number').innerHTML = playButtonTemplate;
+        }
+      });
+      for (var i = 0; i < songRows.length; i++) {
+         songRows[i].addEventListener('mouseleave', function(event) {
+           this.children[0].innerHTML = this.children[0].getAttribute('data-song-number');
+         });
+     }
  };
- var albums = [albumPicasso,albumMarconi, albumUnleashTheDragon];
+ var albums = [albumPicasso, albumMarconi, albumUnleashTheDragon];
  var index = 1;
- albumImage.addEventListener("click", function(event)) {
+ albumImage.addEventListener("click", function(event) {
    setCurrentAlbum(album);
    index++;
-   if (index == album.length) {
-     index = 0;
-   }
- }
+   if (index == album.length) { index = 0; }
+ });
