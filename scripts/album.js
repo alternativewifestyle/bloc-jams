@@ -134,7 +134,7 @@ var nextSong = function() {
     }
 
     // Set a new current song
-    currentlyPlayingSongNumber = currentSongIndex + 1;
+    setSong(currentSongIndex + 1);
     setSong(currentAlbum.songs[currentSongIndex]);
 
     // Update the Player Bar information
