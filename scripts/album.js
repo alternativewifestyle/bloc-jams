@@ -54,7 +54,7 @@ var createSongRow = function(songNumber, songName, songLength) {
 
           if (currentlyPlayingSongNumber !== songNumber) {
             setSong(songNumber);
-            currentSoundFile.play();
+//            currentSoundFile.play();
             updateSeekBarWhileSongPlays();
             currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
 
@@ -62,7 +62,7 @@ var createSongRow = function(songNumber, songName, songLength) {
            var $volumeThumb = $('.volume .thumb');
            $volumeFill.width(currentVolume + '%');
            $volumeThumb.css({left: currentVolume + '%'});
-
+console.log(pauseButtonTemplate)
             $(this).html(pauseButtonTemplate);
             updatePlayerBarSong();
 
@@ -93,6 +93,9 @@ var createSongRow = function(songNumber, songName, songLength) {
 
     if(songNumber !== currentlyPlayingSongNumber) {
       songNumberElement.html(songNumber);
+    }
+    else {
+      songNumberElement.html(pauseButtonTemplate);
     }
   };
 
